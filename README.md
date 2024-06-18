@@ -14,6 +14,8 @@ poetry install
 This app use GitHub App as OAuth2 provider. 
 To run the app, you need to create a GitHub App first.
 
+You may follow [Registering a GitHub App - GitHub Docs](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app) to create a GitHub App. Note that the redirect uri should be `http://localhost:8051/` if you run the app locally.
+
 And then create a `config.yml` file in the project root with the following content:
 ```yaml
 oauth2_provider:
