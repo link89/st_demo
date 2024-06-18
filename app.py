@@ -1,6 +1,7 @@
 import streamlit as st
 
 from st_demo import st_extension as st_ext
+from st_demo.context import auth_manager
 
 st.set_page_config(page_title="Streamlit Demo App")
 
@@ -30,4 +31,10 @@ Here we use GitHub OAuth as an example. The key point is to:
 Since streamlit does not support redirecting user, so the redirect URL of oauth2 will always be the home page.
 ''')
 
+auth_code = st.query_params.get('code')
+user = auth_manager.get_or_authenticate_user(session_id=web_ctx.session_id, code=auth_code)
 
+if user is None:
+    st.write(f'You are not logged in. [Login]({auth_manager.get_oauth2_login_url()})')
+else:
+    st.write(f'You are logged in as and your access token is: {user.access_token}')

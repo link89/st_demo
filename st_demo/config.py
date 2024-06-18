@@ -2,15 +2,18 @@ from pydantic import BaseModel
 import yaml
 
 
-class GithubAppAuth(BaseModel):
-    app_id: int
-    app_private_key: str
-    app_installation_id: int
-    app_installation_token: str
+class OAuth2Provider(BaseModel):
+    client_id: str
+    client_secret: str
+    private_key: str
+
+    login_url: str
+    access_token_url: str
+    redirect_uri: str
 
 
 class ConfigModel(BaseModel):
-    github_app_auth: GithubAppAuth
+    oauth2_provider: OAuth2Provider
 
 
 class Config:

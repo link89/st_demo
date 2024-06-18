@@ -4,6 +4,4 @@ from .auth import AuthManager
 from .config import Config
 
 config = Config('config.yml')
-
-auth_manager = AuthManager()
-
+auth_manager = AuthManager(config=config)
