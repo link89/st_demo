@@ -54,6 +54,7 @@ class AuthManager:
         if code is None or code in self.used_code:
             return None
         # FIXME: this will cause memory leak
+        # Wait for this feature to be implemented: https://github.com/streamlit/streamlit/issues/8112
         self.used_code.add(code)
         token = self.get_oauth2_token(code)
         self.sessions[session_id] = token
