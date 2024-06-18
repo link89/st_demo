@@ -17,6 +17,7 @@ class User:
     def get_profile(self):
         raise NotImplementedError
 
+
 class OAuth2User(User):
     def __init__(self, token: OAuth2Token):
         self.token = token
@@ -34,12 +35,11 @@ class AuthManager:
 
     def get_oauth2_token(self, code):
         res = requests.post(self.oauth2_provider.access_token_url, params={
+            'code': code,
             'client_id': self.oauth2_provider.client_id,
             'client_secret': self.oauth2_provider.client_secret,
-            'code': code,
             'redirect_uri': self.oauth2_provider.redirect_uri,
         })
-        # the content type of res can be 'application/json' or 'application/x-www-form-urlencoded'
         if 'application/json' in res.headers['Content-Type']:
             data = res.json()
         elif 'application/x-www-form-urlencoded' in res.headers['Content-Type']:
