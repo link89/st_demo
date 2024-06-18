@@ -33,7 +33,7 @@ def get_web_session():
             st.session_state['st_session_id'] = session_id
             html(f'<script>document.cookie = "ST_SESSION_ID={session_id}";</script>')
             sleep(0.1)  # FIXME: workaround around bug: Tried to use SessionInfo before it was initialized
-            st.rerun()  # FIXME: workaround of html being render
+            st.rerun()  # FIXME: rerun immediately so that html won't be shown in the final page
         st.session_state['st_session_id'] = session_id
     return st.session_state['st_session_id']
 

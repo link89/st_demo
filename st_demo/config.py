@@ -5,8 +5,6 @@ import yaml
 class OAuth2Provider(BaseModel):
     client_id: str
     client_secret: str
-    private_key: str
-
     login_url: str
     access_token_url: str
     redirect_uri: str
