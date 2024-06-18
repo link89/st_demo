@@ -38,10 +38,12 @@ st.write('## Session Based Authentication')
 st.markdown('''
 Now that we have session support in streamlit, we can use it to implement authentication.
 
-> Note that this is not token based authentication,
-> so the access token won't be stored in the client side.
-> All state is stored in the server side
-> and the client side will recover its state from server with its session cookie.
+Note that this is **NOT** token based authentication,
+the access token won't be stored in the client.
+Don't do things like setting the access token in cookie or localstorage.
+
+The access token should be stored in the server side.
+And then client use session ID to access the server side data.
 
 Here we use GitHub App as an example. The key point is to:
 1. Click login to access GitHub OAuth2 login page.
@@ -55,7 +57,7 @@ Here we use GitHub App as an example. The key point is to:
 if user is None:
     st.write(f'You are not logged in. <a href="{auth_manager.get_oauth2_login_url()}" target="_self">Click to login.</a>', unsafe_allow_html=True)
 else:
-    st.write(f'You are logged in as and your access token is: {user.access_token}')
+    st.write(f'You are logged in. Your access token is: {user.access_token}')
     st.write(f'<a href="?logout=true" target="_self">Click to logout</a>.', unsafe_allow_html=True)
 
 st.markdown('''
