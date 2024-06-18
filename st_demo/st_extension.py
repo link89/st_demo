@@ -1,7 +1,6 @@
-import streamlit as st
 from streamlit.web.server.websocket_headers import _get_websocket_headers
 from streamlit.components.v1 import html
-
+import streamlit as st
 
 from collections import namedtuple
 from http.cookies import SimpleCookie
@@ -32,13 +31,13 @@ def get_web_session():
         if session_id is None:
             session_id = uuid4().hex
             st.session_state['st_session_id'] = session_id
-            html(f'<script>document.cookie = "ST_SESSION_ID={session_id}";</script>')  
+            html(f'<script>document.cookie = "ST_SESSION_ID={session_id}";</script>')
             sleep(0.1)  # FIXME: workaround around bug: Tried to use SessionInfo before it was initialized
             st.rerun()  # FIXME: workaround of html being render
         st.session_state['st_session_id'] = session_id
     return st.session_state['st_session_id']
 
-    
+
 def get_current_url():
     session = st.runtime.get_instance()._session_mgr.list_active_sessions()[0]
     return urllib.parse.urlunparse([session.client.request.protocol, session.client.request.host, "", "", "", ""])
