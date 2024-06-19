@@ -1,3 +1,4 @@
+import streamlit as st
 from pydantic import BaseModel
 import yaml
 
@@ -15,8 +16,6 @@ class ConfigModel(BaseModel):
 
 
 class Config:
-    def __init__(self, config_file):
-        self.config_file = config_file
-        with open(self.config_file, 'r') as f:
-            data = yaml.safe_load(f)
+    def __init__(self, config_str: str):
+        data = yaml.safe_load(config_str)
         self.data = ConfigModel(**data)
