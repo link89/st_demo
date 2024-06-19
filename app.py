@@ -34,7 +34,7 @@ A unique session ID will be generated and set in the cookie when you first visit
 
 Session ID: {web_ctx.session_id}
 
-This session ID will be the same for the same user until the cookies are cleared.
+This session ID will be the same for the same user until the cookie is cleared or expired.
 You can try to refresh this page or open another tab to see if the session ID remains the same.
 ''')
 
