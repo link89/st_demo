@@ -5,19 +5,23 @@ from st_demo.context import auth_manager
 
 st.set_page_config(page_title="Streamlit Demo App")
 
-# This should be call at the beginning of the app
+# This must be call at the beginning of the page
 web_ctx = st_ext.get_web_context()
 
-user = None
+# TODO: move the logout logic to a dedicated page
 logout = st.query_params.get('logout')
-code = st.query_params.get('code')
 if 'true' == logout:
+    st.query_params.clear()
     auth_manager.logout_user(session_id=web_ctx.session_id)
 
-user = auth_manager.get_or_authenticate_user(session_id=web_ctx.session_id, code=code)
+# TODO: move the login logic to a dedicated page
+user = None
+code = st.query_params.get('code')
+if code:
+    st.query_params.clear()
+    user = auth_manager.get_or_authenticate_user(session_id=web_ctx.session_id, code=code)
 
-
-# route page by url
+# Start to build page
 st.title("Streamlit Demo App")
 
 st.markdown(f'''
