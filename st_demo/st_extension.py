@@ -10,10 +10,11 @@ import urllib.parse
 
 
 def get_cookie():
-    headers = _get_websocket_headers()
-    cookie_str = headers.get("Cookie")
-    if cookie_str:
-        return SimpleCookie(cookie_str)
+    headers = _get_websocket_headers()  # this will be None for streamlit cloud
+    if headers is not None:
+        cookie_str = headers.get("Cookie")
+        if cookie_str:
+            return SimpleCookie(cookie_str)
 
 
 def get_cookie_value(key):
@@ -28,6 +29,11 @@ def get_cookie_value(key):
 def get_web_session():
     if 'st_session_id' not in st.session_state:
         session_id = get_cookie_value('ST_SESSION_ID')
+
+        if session_id is None:
+            # fallback to streamlit_session for streamlit cloud
+            session_id = get_cookie_value('streamlit_session')
+
         if session_id is None:
             session_id = uuid4().hex
             st.session_state['st_session_id'] = session_id
