@@ -28,7 +28,6 @@ class AuthManager:
         self.oauth2_provider = config.data.oauth2_provider
         self.users = {}
         self.sessions: Mapping[str, OAuth2Token] = {}
-        self.used_code = set()
 
     def get_oauth2_login_url(self):
         return f'{self.oauth2_provider.login_url}?client_id={self.oauth2_provider.client_id}'
@@ -51,11 +50,8 @@ class AuthManager:
     def get_or_authenticate_user(self, session_id, code = None) -> Optional[OAuth2Token]:
         if session_id in self.sessions:
             return self.sessions[session_id]
-        if code is None or code in self.used_code:
+        if code is None:
             return None
-        # FIXME: this will cause memory leak
-        # Wait for this feature to be implemented: https://github.com/streamlit/streamlit/issues/8112
-        self.used_code.add(code)
         token = self.get_oauth2_token(code)
         self.sessions[session_id] = token
         return token

@@ -57,15 +57,9 @@ Here we use GitHub App as an example. The key point is to:
 
 ''')
 
-
 if user is None:
-    st.write(f'You are not logged in. <a href="{auth_manager.get_oauth2_login_url()}" target="_self">Click to login.</a>', unsafe_allow_html=True)
+    st.write(f'You are not logged in.')
+    st.write(f'<a href="{auth_manager.get_oauth2_login_url()}" target="_self">Click to login.</a>', unsafe_allow_html=True)
 else:
     st.write(f'You are logged in. Your access token is: {user.access_token}')
     st.write(f'<a href="?logout=true" target="_self">Click to logout</a>.', unsafe_allow_html=True)
-
-st.markdown('''
-## Limitations & Known Issues
-
-* Cannot hide auth code in URL after login as there is not way to redirect page. This will cause trouble if the user refresh the page, share the URL or restart streamlit server. Even `st.switch_page` cannot help as it don't clear the query string.
-''')
