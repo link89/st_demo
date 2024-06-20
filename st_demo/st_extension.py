@@ -45,7 +45,7 @@ def get_web_session():
 def get_current_url():
     """
     Get URL of current page.
-    Broken in Streamlit Cloud.
+    This is broken on Streamlit Cloud
     """
     session = st.runtime.get_instance()._session_mgr.list_active_sessions()[0]
     return urllib.parse.urlunparse([session.client.request.protocol, session.client.request.host, "", "", "", ""])
