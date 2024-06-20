@@ -2,7 +2,6 @@ from streamlit.web.server.websocket_headers import _get_websocket_headers
 from streamlit.components.v1 import html
 import streamlit as st
 
-from collections import namedtuple
 from http.cookies import SimpleCookie
 from uuid import uuid4
 from time import sleep
@@ -27,13 +26,12 @@ def get_cookie_value(key):
 
 
 def get_web_session():
+    """
+    Get web session ID from cookie
+    This is broken on Streamlit Cloud
+    """
     if 'st_session_id' not in st.session_state:
         session_id = get_cookie_value('ST_SESSION_ID')
-
-        if session_id is None:
-            # fallback to streamlit_session for streamlit cloud
-            session_id = get_cookie_value('streamlit_session')
-
         if session_id is None:
             session_id = uuid4().hex
             st.session_state['st_session_id'] = session_id
@@ -45,11 +43,9 @@ def get_web_session():
 
 
 def get_current_url():
+    """
+    Get URL of current page.
+    Broken in Streamlit Cloud.
+    """
     session = st.runtime.get_instance()._session_mgr.list_active_sessions()[0]
     return urllib.parse.urlunparse([session.client.request.protocol, session.client.request.host, "", "", "", ""])
-
-
-WebContext = namedtuple('WebContext', ['session_id', 'url'])
-
-def get_web_context():
-    return WebContext(session_id=get_web_session(), url=get_current_url())

@@ -6,17 +6,17 @@ from st_demo.context import auth_manager
 st.set_page_config(page_title="Streamlit Demo App")
 
 # This must be call at the beginning of the page
-web_ctx = st_ext.get_web_context()
+session_id = st_ext.get_web_session()
 
 # TODO: move the logout logic to a dedicated page
 logout = st.query_params.pop('logout', None)
 if 'true' == logout:
-    auth_manager.logout_user(session_id=web_ctx.session_id)
+    auth_manager.logout_user(session_id=session_id)
 
 # TODO: move the login logic to a dedicated page
 user = None
 code = st.query_params.pop('code', None)
-user = auth_manager.get_or_authenticate_user(session_id=web_ctx.session_id, code=code)
+user = auth_manager.get_or_authenticate_user(session_id=session_id, code=code)
 
 # Start to build page
 st.title("Streamlit Demo App")
@@ -29,7 +29,7 @@ st.markdown(f'''
 ## Cookie Based Session
 A unique session ID will be generated and set in the cookie when you first visit this page.
 
-Session ID: {web_ctx.session_id}
+Session ID: {session_id}
 
 This session ID will be the same for the same user until the cookie is cleared or expired.
 You can try to refresh this page or open another tab to see if the session ID remains the same.
